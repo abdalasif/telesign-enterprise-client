@@ -1,0 +1,34 @@
+{
+  "name": "abdalasif/telesign-enterprise-client",
+  "description": "TeleSign Enterprise SDK",
+  "type": "library",
+  "keywords": [
+    "telesign", "sms", "voice", "mobile", "authentication", "identity", "messaging"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Abdal Asif",
+      "email": "abdal.asif@outlook.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2.5 || ^8.0",
+    "abdalasif/telesign-client": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8",
+    "composer/semver": "^3"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": { "telesign\\enterprise\\sdk\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "telesign\\enterprise\\sdk\\": "test/", "telesign\\sdk\\": "vendor/abdalasif/telesign-client/test/" }
+  },
+  "scripts": {
+    "test": "phpunit --bootstrap ./vendor/autoload.php test/ --coverage-clover coverage.xml --whitelist src/"
+  }
+}
