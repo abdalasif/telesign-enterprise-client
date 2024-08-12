@@ -2,6 +2,7 @@
 
 namespace telesign\enterprise\sdk\verify;
 
+use telesign\sdk\rest\Response;
 use telesign\sdk\rest\RestClient;
 
 /**
@@ -16,6 +17,10 @@ class VerifyClient extends RestClient {
   const VERIFY_PUSH_RESOURCE = "/v2/verify/push";
   const VERIFY_STATUS_RESOURCE = "/v1/verify/%s";
   const VERIFY_COMPLETION_RESOURCE = "/v1/verify/completion/%s";
+  const VERIFY_VERIFICATION_RESOURCE = "/verification";
+  const VERIFY_VERIFICATION_UPDATE_RESOURCE = "/verification/%s/state";
+  const VERIFY_VERIFICATION_STATUS_RESOURCE = "/verification/%s";
+
 
   function __construct ($customer_id, $api_key, $rest_endpoint = "https://rest-ww.telesign.com", ...$other) {
     parent::__construct($customer_id, $api_key, $rest_endpoint, ...$other);
@@ -92,4 +97,38 @@ class VerifyClient extends RestClient {
     return $this->put(sprintf(self::VERIFY_COMPLETION_RESOURCE, $reference_id), $params);
   }
 
+  /**
+   * The Verify API delivers multi verification sent over SMS, Whatsapp, Silent, Push, Rcs, Email.
+   *
+   * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
+   */
+  function createVerification (array $recipient, array $other = []): Response
+  {
+      return $this->post(self::VERIFY_VERIFICATION_RESOURCE, array_merge([
+          "recipient" => $recipient,
+      ], $other));
+  }
+
+  /**
+   * Updates the Verify API resource
+   *
+   * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
+   */
+  function updateVerification (string $reference_id, string $security_factor, string $action): Response
+  {
+    return $this->post(sprintf(self::VERIFY_VERIFICATION_UPDATE_RESOURCE, $reference_id), [
+        "action" => $action,
+        "security_factor" => $security_factor,
+    ]);
+  }
+
+  /**
+   * Retrieves the Verify API resource status
+   *
+   * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
+   */
+  function verificationStatus (string $reference_id): Response
+  {
+    return $this->get(sprintf(self::VERIFY_VERIFICATION_STATUS_RESOURCE, $reference_id));
+  }
 }
