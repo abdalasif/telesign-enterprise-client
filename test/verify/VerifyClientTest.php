@@ -11,6 +11,8 @@ final class VerifyClientTest extends ClientTest {
   const EXAMPLE_UCID = Example::UCID;
   const EXAMPLE_REFERENCE_ID = Example::REFERENCE_ID;
   const EXAMPLE_VERIFY_CODE = "1234";
+  const EXAMPLE_VERIFY_ACTION = 'finalize';
+  const EXAMPLE_VERIFY_VERIFIED_STATUS_CODE = 3900;
 
   function getRequestExamples () {
     return [
@@ -107,6 +109,40 @@ final class VerifyClientTest extends ClientTest {
         [
           "optional_param" => "123"
         ]
+      ],
+      [
+        VerifyClient::class,
+        "createVerification",
+        [
+          ['phone_number' => self::EXAMPLE_PHONE_NUMBER]
+        ],
+        self::EXAMPLE_REST_ENDPOINT. "/verification",
+        [
+          "recipient" => ["phone_number" => self::EXAMPLE_PHONE_NUMBER]
+        ]
+      ],
+      [
+        VerifyClient::class,
+        "updateVerification",
+        [
+          self::EXAMPLE_REFERENCE_ID,
+          self::EXAMPLE_VERIFY_CODE,
+          self::EXAMPLE_VERIFY_ACTION,
+        ],
+        self::EXAMPLE_REST_ENDPOINT. "/verification/" . self::EXAMPLE_REFERENCE_ID . "/state",
+        [
+          "action" => self::EXAMPLE_VERIFY_ACTION,
+          "security_factor" => self::EXAMPLE_VERIFY_CODE,
+        ]
+      ],
+      [
+        VerifyClient::class,
+        "verificationStatus",
+        [
+          self::EXAMPLE_REFERENCE_ID,
+        ],
+        self::EXAMPLE_REST_ENDPOINT. "/verification/" . self::EXAMPLE_REFERENCE_ID,
+        []
       ],
     ];
   }
