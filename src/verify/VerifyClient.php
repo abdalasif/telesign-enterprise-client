@@ -102,11 +102,11 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function createVerification (array $recipient, array $other = []): Response
+  function createVerification (array $recipient, array $other = [], string $contentType = 'application/json'): Response
   {
       return $this->post(self::VERIFY_VERIFICATION_RESOURCE, array_merge([
           "recipient" => $recipient,
-      ], $other));
+      ], $other), $contentType);
   }
 
   /**
@@ -114,12 +114,12 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function updateVerification (string $reference_id, string $security_factor, string $action): Response
+  function updateVerification (string $reference_id, string $security_factor, string $action, string $contentType = 'application/json'): Response
   {
-    return $this->post(sprintf(self::VERIFY_VERIFICATION_UPDATE_RESOURCE, $reference_id), [
+    return $this->patch(sprintf(self::VERIFY_VERIFICATION_UPDATE_RESOURCE, $reference_id), [
         "action" => $action,
         "security_factor" => $security_factor,
-    ]);
+    ], $contentType);
   }
 
   /**
@@ -127,8 +127,8 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function verificationStatus (string $reference_id): Response
+  function verificationStatus (string $reference_id, string $contentType = 'application/json'): Response
   {
-    return $this->get(sprintf(self::VERIFY_VERIFICATION_STATUS_RESOURCE, $reference_id));
+    return $this->get(sprintf(self::VERIFY_VERIFICATION_STATUS_RESOURCE, $reference_id), [], $contentType);
   }
 }
