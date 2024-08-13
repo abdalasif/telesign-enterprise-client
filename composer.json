@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "php": "^7.2.5 || ^8.0",
+    "php": "^8.0",
     "abdalasif/telesign-client": "dev-master"
   },
   "require-dev": {
