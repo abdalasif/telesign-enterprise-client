@@ -94,7 +94,7 @@ class VerifyClient extends RestClient {
    * See https://developer.telesign.com/docs/completion-service-for-verify-products for detailed API documentation.
    */
   function completion ($reference_id, array $params = []) {
-    return $this->put(sprintf(self::VERIFY_COMPLETION_RESOURCE, $reference_id), $params);
+    return $this->put(sprintf(self::VERIFY_COMPLETION_RESOURCE, $reference_id), $params, 'application/json');
   }
 
   /**
@@ -102,11 +102,11 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function createVerification (array $recipient, array $other = [], string $contentType = 'application/json'): Response
+  function createVerification (array $recipient, array $other = []): Response
   {
       return $this->post(self::VERIFY_VERIFICATION_RESOURCE, array_merge([
           "recipient" => $recipient,
-      ], $other), $contentType);
+      ], $other), 'application/json');
   }
 
   /**
@@ -114,12 +114,12 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function updateVerification (string $reference_id, string $security_factor, string $action, string $contentType = 'application/json'): Response
+  function updateVerification (string $reference_id, string $security_factor, string $action): Response
   {
     return $this->patch(sprintf(self::VERIFY_VERIFICATION_UPDATE_RESOURCE, $reference_id), [
         "action" => $action,
         "security_factor" => $security_factor,
-    ], $contentType);
+    ], 'application/json');
   }
 
   /**
@@ -127,8 +127,8 @@ class VerifyClient extends RestClient {
    *
    * See https://developer.telesign.com/enterprise/docs/verify-api-get-started for detailed API documentation.
    */
-  function verificationStatus (string $reference_id, string $contentType = 'application/json'): Response
+  function verificationStatus (string $reference_id): Response
   {
-    return $this->get(sprintf(self::VERIFY_VERIFICATION_STATUS_RESOURCE, $reference_id), [], $contentType);
+    return $this->get(sprintf(self::VERIFY_VERIFICATION_STATUS_RESOURCE, $reference_id), [], 'application/json');
   }
 }

@@ -106,9 +106,7 @@ final class VerifyClientTest extends ClientTest {
           ]
         ],
         self::EXAMPLE_REST_ENDPOINT . "/v1/verify/completion/". self::EXAMPLE_REFERENCE_ID,
-        [
-          "optional_param" => "123"
-        ]
+        '{"optional_param":"123"}'
       ],
       [
         VerifyClient::class,
@@ -117,9 +115,9 @@ final class VerifyClientTest extends ClientTest {
           ['phone_number' => self::EXAMPLE_PHONE_NUMBER]
         ],
         self::EXAMPLE_REST_ENDPOINT. "/verification",
-        [
+        json_encode([
           "recipient" => ["phone_number" => self::EXAMPLE_PHONE_NUMBER]
-        ]
+        ])
       ],
       [
         VerifyClient::class,
@@ -130,10 +128,10 @@ final class VerifyClientTest extends ClientTest {
           self::EXAMPLE_VERIFY_ACTION,
         ],
         self::EXAMPLE_REST_ENDPOINT. "/verification/" . self::EXAMPLE_REFERENCE_ID . "/state",
-        [
+        json_encode([
           "action" => self::EXAMPLE_VERIFY_ACTION,
           "security_factor" => self::EXAMPLE_VERIFY_CODE,
-        ]
+        ])
       ],
       [
         VerifyClient::class,
@@ -142,7 +140,7 @@ final class VerifyClientTest extends ClientTest {
           self::EXAMPLE_REFERENCE_ID,
         ],
         self::EXAMPLE_REST_ENDPOINT. "/verification/" . self::EXAMPLE_REFERENCE_ID,
-        []
+        ''
       ],
     ];
   }
